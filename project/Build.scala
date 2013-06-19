@@ -8,7 +8,7 @@ object DevTeamBuild extends Build {
   lazy val common = Project(
     id = "common",
     base = file("."),
-    settings = Defaults.defaultSettings ++ Seq(
+    settings = Defaults.defaultSettings ++ DB.settings ++ Seq(
       organization := "com.github.seratch",
       name := "devteam-example-common",
       version := "0.1-SNAPSHOT",
