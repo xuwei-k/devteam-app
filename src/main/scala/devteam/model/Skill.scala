@@ -1,7 +1,9 @@
 package devteam.model
 
-import scalikejdbc._, SQLInterpolation._
+import java.sql.ResultSet
+import devteam.FromResultSet
 import org.joda.time.DateTime
+import scalikejdbc._
 
 case class Skill(
     id: Long,
@@ -14,6 +16,13 @@ case class Skill(
 }
 
 object Skill extends SQLSyntaxSupport[Skill] {
+
+  import FromResultSet.ResultSetOps
+
+  implicit val instance: FromResultSet[Skill] =
+    FromResultSet.apply4(Skill.apply)("id", "name", "createdAt", "deletedAt")
+
+  def apply(rs: ResultSet): Skill = rs.to[Skill]
 
   def apply(s: SyntaxProvider[Skill])(rs: WrappedResultSet): Skill = apply(s.resultName)(rs)
   def apply(s: ResultName[Skill])(rs: WrappedResultSet): Skill = new Skill(
