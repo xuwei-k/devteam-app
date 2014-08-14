@@ -11,9 +11,10 @@ object AutoApply {
     val declarations = tpe.decls
     val ctor = declarations.collectFirst { case m: MethodSymbol if m.isPrimaryConstructor => m }.get
     val params = ctor.paramLists.head
-    val constParams = params.map { field => 
+    val constParams = params.map { field =>
+      val fieldType = field.typeSignature
       val name = field.name.decodedName.toString
-      q"$rs.get($rn.field($name))"
+      q"$rs.get[$fieldType]($rn.field($name))"
     }
     c.Expr[A](q"new ${tpe}(..$constParams)")
   }
