@@ -14,9 +14,15 @@ object AutoApply {
     val constParams = params.map { field =>
       val fieldType = field.typeSignature
       val name = field.name.decodedName.toString
-      q"$rs.get[$fieldType]($rn.field($name))"
+      Apply(
+        TypeApply(
+          Select(rs.tree, TermName("get")),
+          TypeTree(fieldType) :: Nil),
+        Apply(
+          Select(rn.tree, TermName("field")),
+          Literal(Constant(name)) :: Nil) :: Nil)
     }
-    c.Expr[A](q"new ${tpe}(..$constParams)")
+    c.Expr[A](Apply(Select(New(TypeTree(tpe)), termNames.CONSTRUCTOR), constParams))
   }
 
   def apply[A](rn: ResultName[A], rs: WrappedResultSet): A = macro apply_impl[A]
