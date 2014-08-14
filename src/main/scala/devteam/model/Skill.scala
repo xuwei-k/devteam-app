@@ -3,9 +3,11 @@ package devteam.model
 import scalikejdbc._, SQLInterpolation._
 import org.joda.time.DateTime
 
+class AAA
+
 case class Skill(
     id: Long,
-    name: String,
+    name: AAA,
     createdAt: DateTime,
     deletedAt: Option[DateTime] = None) {
 
