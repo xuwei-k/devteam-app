@@ -141,7 +141,6 @@ http://scalikejdbc.org/documentation/playframework-support.html
 │   │   │           └── V1__create_tables.sql
 │   │   ├── play.plugins
 │   │   └── routes
-│   ├── dependency-graph.txt
 │   ├── project
 │   │   └── build.properties
 │   └── test
